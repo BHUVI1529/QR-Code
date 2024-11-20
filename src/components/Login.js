@@ -11,7 +11,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://scanqr-jdez.onrender.com/', { email, password });
+            const response = await axios.post('https://scanqr-jdez.onrender.com/api/login', { email, password });
             const loginResponse = response.data;
 
             // Save token, user ID, and role to local storage
