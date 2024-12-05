@@ -20,7 +20,7 @@ const Attendance = () => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.get(
-                    'http://localhost:8080/api/attendance/status',
+                    'https://qrcode-application.onrender.com/api/attendance/status',
                     {
                         headers: { Authorization: Bearer ${token} }
                     }
