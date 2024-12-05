@@ -58,7 +58,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchTotalStudents = async () => {
       try {
-        const response = await fetch('http://localhost:8080/admin/users/count');
+        const response = await fetch('https://qrcode-application.onrender.com/admin/users/count');
         const data = await response.json();
         setTotalStudents(data.total);
       } catch (error) {
@@ -69,7 +69,7 @@ function Dashboard() {
 
     const fetchAttendanceData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/admin/attendance/all');  // Replace with your endpoint for weekly attendance
+        const response = await fetch('https://qrcode-application.onrender.com/admin/attendance/all');  // Replace with your endpoint for weekly attendance
         const data = await response.json();
         const presentData = data.present || [0, 0, 0, 0, 0];  // Fallback to empty data if not available
         const absentData = data.absent || [0, 0, 0, 0, 0];  // Fallback to empty data if not available
@@ -100,7 +100,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchPresentToday = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/attendance/count/present-today');
+        const response = await fetch('https://qrcode-application.onrender.com/api/attendance/count/present-today');
         const data = await response.json();
         console.log('Present today:', data.presentToday); // Log the result
         setPresentToday(data.presentToday); // Update state
