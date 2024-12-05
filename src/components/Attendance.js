@@ -20,7 +20,7 @@ const Attendance = () => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.get(
-                    'http://localhost:8080/api/attendance/status',
+                    'https://scanqr-jdez.onrender.com/api/attendance/status',
                     {
                         headers: { Authorization: `Bearer ${token}` }
                     }
@@ -70,12 +70,17 @@ const Attendance = () => {
 
         // Morning login time (9:00 AM to 9:30 AM)
         if (attendanceType === 'login') {
+<<<<<<< HEAD
             if (currentHour < 9 || currentHour >= 9.5) {
                 setMessage("Morning login is only available between 9:00 AM and 9:30 AM.");
                 setTimeout(() => {
                     setMessage('');
                     navigate('/login');
                 }, 5000); // 5 seconds
+=======
+            if (currentHour < 9.5 || currentHour >= 12) {
+                setMessage("Morning login is only available between 9:30 AM and 10:00 AM.");
+>>>>>>> 947ac916f337d2b4d6a9967c0d20d31b61ec2947
                 return;
             }
             if (cookies.hasMarkedLogin) {
@@ -91,12 +96,17 @@ const Attendance = () => {
 
         // Lunch attendance time (12:30 PM to 2:30 PM)
         if (attendanceType === 'lunch') {
+<<<<<<< HEAD
             if (currentHour < 12.5 || currentHour >= 14.5) {
                 setMessage("Lunch attendance can only be marked between 12:30 PM and 2:30 PM.");
                 setTimeout(() => {
                     setMessage('');
                     navigate('/login');
                 }, 5000); // 5 seconds
+=======
+            if (currentHour <= 12.5 || currentHour >= 14.5) {
+                setMessage("Lunch attendance can only be marked between 12 PM and 1:30 PM.");
+>>>>>>> 947ac916f337d2b4d6a9967c0d20d31b61ec2947
                 return;
             }
             if (cookies.hasMarkedLunch) {
@@ -162,7 +172,7 @@ const Attendance = () => {
 
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/attendance/add',
+                'https://scanqr-jdez.onrender.com/api/attendance/add',
                 payload,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
