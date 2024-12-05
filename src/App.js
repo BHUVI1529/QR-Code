@@ -17,7 +17,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import QRCodeScanner from './components/QRCodeScanner';
-import Attendance from './components/Attendance';
+
 import Success from './components/Success';
 import Forgotpassword from './components/Forgotpassword';
 import Candidates from './components/Candidates';
@@ -35,7 +35,7 @@ function App() {
         <Route path="/view-attendance" element={<ViewAttendance />} /> {/* Candidate Component */}
         <Route path="/register" element={<Register />} />
         <Route path="/qr-scanner" element={<QRCodeScanner />} />
-        <Route path="/attendance" element={<Attendance />} />
+        
         <Route path="/success" element={<Success />} />
         <Route path="/forgotpassword" element={<Forgotpassword />} />
 
