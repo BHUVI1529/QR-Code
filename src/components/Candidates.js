@@ -43,6 +43,7 @@ const Candidates = () => {
         fontFamily: 'Arial, sans-serif', // Modern font
       }}
     >
+  <Header />
       <h2
         style={{
           textAlign: 'center',
