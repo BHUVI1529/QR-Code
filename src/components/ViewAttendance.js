@@ -28,7 +28,8 @@ const ViewAttendance = () => {
 
   return (
     <div style={{ backgroundColor: '#f7f7f7', padding: '30px', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', color: '#333' }}>
+    <Header />  
+    <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', color: '#333' }}>
         View Attendance
       </h1>
       <div style={{ overflowX: 'auto' }}>
