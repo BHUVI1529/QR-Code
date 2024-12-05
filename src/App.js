@@ -16,6 +16,7 @@ import LeavesPage from './pages/LeavesPage';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import Attendance from './components/Attendance';
 import QRCodeScanner from './components/QRCodeScanner';
 
 import Success from './components/Success';
@@ -34,6 +35,7 @@ function App() {
         <Route path="/candidates" element={<Candidates />} />
         <Route path="/view-attendance" element={<ViewAttendance />} /> {/* Candidate Component */}
         <Route path="/register" element={<Register />} />
+        <Route path="/attendance" element={<Attendance />} />
         <Route path="/qr-scanner" element={<QRCodeScanner />} />
         
         <Route path="/success" element={<Success />} />
