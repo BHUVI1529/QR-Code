@@ -1,82 +1,73 @@
-// components/ViewAttendance.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const ViewAttendance = () => {
-    const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState('');
-    const [attendanceRecords, setAttendanceRecords] = useState([]);
-    const [dateRange, setDateRange] = useState({ start: '', end: '' });
+  const [attendanceData, setAttendanceData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        // Fetch list of users for selection dropdown
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get('/api/users');
-                setUsers(response.data);
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
-        };
-        fetchUsers();
-    }, []);
-
-    const fetchAttendance = async () => {
-        try {
-            const response = await axios.get(`/api/attendance/user/${selectedUser}`, {
-                params: {
-                    startDate: dateRange.start,
-                    endDate: dateRange.end
-                }
-            });
-            setAttendanceRecords(response.data);
-        } catch (error) {
-            console.error("Error fetching attendance:", error);
-        }
+  // Fetch attendance data from backend
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/admin/attendance/all');
+        setAttendanceData(response.data); // Set fetched data
+        setLoading(false); // Mark loading as false
+      } catch (err) {
+        console.error('Error fetching attendance data:', err);
+        setError('Failed to load attendance data.');
+        setLoading(false);
+      }
     };
 
-    return (
-        <div>
-            <h2>View Attendance Records</h2>
-            <label>
-                Select User:
-                <select value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
-                    <option value="">Select a User</option>
-                    {users.map((user) => (
-                        <option key={user.id} value={user.id}>{user.name}</option>
-                    ))}
-                </select>
-            </label>
+    fetchAttendanceData();
+  }, []);
 
-            <label>
-                Start Date:
-                <input
-                    type="date"
-                    value={dateRange.start}
-                    onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                />
-            </label>
-            <label>
-                End Date:
-                <input
-                    type="date"
-                    value={dateRange.end}
-                    onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                />
-            </label>
+  if (loading) return <p style={{ textAlign: 'center', color: '#555', fontSize: '18px' }}>Loading attendance data...</p>;
+  if (error) return <p style={{ textAlign: 'center', color: 'red', fontSize: '18px' }}>{error}</p>;
 
-            <button onClick={fetchAttendance}>View Attendance</button>
-
-            <div>
-                <h3>Attendance Records</h3>
-                <ul>
-                    {attendanceRecords.map((record) => (
-                        <li key={record.id}>{record.date}: {record.status}</li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
+  return (
+    <div style={{ backgroundColor: '#f7f7f7', padding: '30px', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
+      <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', color: '#333' }}>
+        View Attendance
+      </h1>
+      <div style={{ overflowX: 'auto' }}>
+        <table
+          style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            backgroundColor: '#fff',
+          }}
+        >
+          <thead>
+            <tr style={{ backgroundColor: '#4caf50', color: 'white' }}>
+              <th style={{ border: '1px solid #ddd', padding: '12px', textAlign: 'left' }}>User ID</th>
+              <th style={{ border: '1px solid #ddd', padding: '12px', textAlign: 'left' }}>Name</th>
+              <th style={{ border: '1px solid #ddd', padding: '12px', textAlign: 'left' }}>Login Option</th>
+              <th style={{ border: '1px solid #ddd', padding: '12px', textAlign: 'left' }}>Institute ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {attendanceData.map((attendance, index) => (
+              <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
+                <td style={{ border: '1px solid #ddd', padding: '12px' }}>
+                  {attendance.user ? attendance.user.id : 'N/A'}
+                </td>
+                <td style={{ border: '1px solid #ddd', padding: '12px' }}>
+                  {attendance.user ? attendance.user.name || 'No Name' : 'N/A'}
+                </td>
+                <td style={{ border: '1px solid #ddd', padding: '12px' }}>{attendance.loginOption}</td>
+                <td style={{ border: '1px solid #ddd', padding: '12px' }}>
+                  {attendance.instituteId || 'N/A'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default ViewAttendance;

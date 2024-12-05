@@ -25,10 +25,12 @@ const Login = () => {
 
             // Navigate based on the user's role
             if (loginResponse.role === 'ADMIN') {
-                navigate('/dashboard');
-            } else {
-                navigate('/qr-scanner'); // Replace with the user dashboard route
+                navigate('/admin/Dashboard');
             }
+            else{
+                navigate('/qr-scanner');
+            }
+            
         } catch (err) {
             console.error("Login error:", err);
             setError('Invalid login credentials');
@@ -79,3 +81,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+
 import { useSwipeable } from 'react-swipeable';
 import { useCookies } from 'react-cookie';
 
@@ -11,7 +12,7 @@ const Attendance = () => {
     const [message, setMessage] = useState('');
     const [isSwiped, setIsSwiped] = useState(false);
     const [buttonSubmitted, setButtonSubmitted] = useState(false);
-    const [cookies, setCookie] = useCookies(['hasMarkedLogin', 'hasMarkedLunch', 'hasMarkedTea']);
+    const [cookies, setCookie] = useCookies(['hasMarkedLogin', 'hasMarkedLunch', 'hasMarkedTea', 'hasMarkedLogout']);
 
     useEffect(() => {
         // Fetch the user's attendance status for the day
@@ -26,11 +27,11 @@ const Attendance = () => {
                 );
                 const { loginMarked, lunchMarked, teaMarked } = response.data;
                 const expires = new Date();
-                expires.setHours(23, 59, 59, 999); 
+                expires.setHours(23, 59, 59, 999);
 
-                setCookie('hasMarkedLogin', loginMarked, { path: '/', expires: new Date().setHours(23, 59, 59, 999) });
-                setCookie('hasMarkedLunch', lunchMarked, { path: '/', expires: new Date().setHours(23, 59, 59, 999) });
-                setCookie('hasMarkedTea', teaMarked, { path: '/', expires: new Date().setHours(23, 59, 59, 999) });
+                setCookie('hasMarkedLogin', loginMarked, { path: '/', expires });
+                setCookie('hasMarkedLunch', lunchMarked, { path: '/', expires });
+                setCookie('hasMarkedTea', teaMarked, { path: '/', expires });
             } catch (error) {
                 console.error("Failed to fetch attendance status:", error);
             }
@@ -67,14 +68,22 @@ const Attendance = () => {
         const expires = new Date();
         expires.setHours(23, 59, 59, 999);
 
-        // Morning login time (9:30 AM to 10:00 AM)
+        // Morning login time (9:00 AM to 9:30 AM)
         if (attendanceType === 'login') {
-            if (currentHour < 9.5 || currentHour >= 10) {
-                setMessage("Morning login is only available between 9:30 AM and 10:00 AM.");
+            if (currentHour < 9 || currentHour >= 9.5) {
+                setMessage("Morning login is only available between 9:00 AM and 9:30 AM.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
                 return;
             }
             if (cookies.hasMarkedLogin) {
                 setMessage("You have already marked your morning login for today.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
                 return;
             }
             setCookie('hasMarkedLogin', true, { path: '/', expires });
@@ -83,11 +92,19 @@ const Attendance = () => {
         // Lunch attendance time (12:30 PM to 2:30 PM)
         if (attendanceType === 'lunch') {
             if (currentHour < 12.5 || currentHour >= 14.5) {
-                setMessage("Lunch attendance can only be marked between 12 PM and 1:30 PM.");
+                setMessage("Lunch attendance can only be marked between 12:30 PM and 2:30 PM.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
                 return;
             }
             if (cookies.hasMarkedLunch) {
                 setMessage("Lunch attendance can only be marked once per day.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
                 return;
             }
             setCookie('hasMarkedLunch', true, { path: '/', expires });
@@ -95,15 +112,44 @@ const Attendance = () => {
 
         // Tea attendance time (4:00 PM to 4:30 PM)
         if (attendanceType === 'tea') {
-            if (currentHour < 16 || currentHour >= 16.5) {
+            if (currentHour < 15 || currentHour >= 16.5) {
                 setMessage("Tea attendance can only be marked between 4:00 PM and 4:30 PM.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
                 return;
             }
             if (cookies.hasMarkedTea) {
                 setMessage("Tea attendance can only be marked once per day.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
                 return;
             }
             setCookie('hasMarkedTea', true, { path: '/', expires });
+        }
+
+        // Logout attendance time (5:00 PM to 5:30 PM)
+        if (attendanceType === 'logout') {
+            if (currentHour < 17 || currentHour >= 17.5) {
+                setMessage("Logout attendance can only be marked between 5:00 PM and 5:30 PM.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
+                return;
+            }
+            if (cookies.hasMarkedLogout) {
+                setMessage("Logout attendance can only be marked once per day.");
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
+                return;
+            }
+            setCookie('hasMarkedLogout', true, { path: '/', expires });
         }
 
         const payload = {
@@ -134,6 +180,10 @@ const Attendance = () => {
                 navigate('/login');
             } else {
                 setMessage('Attendance marking failed: ' + (error.response?.data.message || error.message));
+                setTimeout(() => {
+                    setMessage('');
+                    navigate('/login');
+                }, 5000); // 5 seconds
             }
         }
     };
