@@ -10,7 +10,7 @@ const ViewAttendance = () => {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/admin/attendance/all');
+        const response = await axios.get('http://qrcode-application.onrender.com/admin/attendance/all');
         setAttendanceData(response.data); // Set fetched data
         setLoading(false); // Mark loading as false
       } catch (err) {
