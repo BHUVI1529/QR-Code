@@ -9,7 +9,7 @@ const Candidates = () => {
   useEffect(() => {
     // Fetching the data from the backend
     axios
-      .get('http://localhost:8080/admin/users') // Update with the correct URL if necessary
+      .get('https://qrcode-application.onrender.com/admin/users') // Update with the correct URL if necessary
       .then(response => {
         console.log('API response:', response.data); // Debugging API response
         setCandidates(response.data);
