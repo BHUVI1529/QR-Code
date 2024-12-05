@@ -7,7 +7,7 @@ import RecentActivity from './RecentActivity';
 import Header from './Header';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
-
+//function is for dashbord
 function Dashboard() {
   const [totalStudents, setTotalStudents] = useState(0);
   const [presentToday, setPresentToday] = useState(0);
