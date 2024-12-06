@@ -18,7 +18,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Attendance from './components/Attendance';
 import QRCodeScanner from './components/QRCodeScanner';
-
+import UserDashboard from './components/UserDashboard';
+import RemarkPage from './components/RemarkPage';
 import Success from './components/Success';
 import Forgotpassword from './components/Forgotpassword';
 import Candidates from './components/Candidates';
@@ -37,7 +38,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/qr-scanner" element={<QRCodeScanner />} />
-        
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/remark" element={<RemarkPage />} />
         <Route path="/success" element={<Success />} />
         <Route path="/forgotpassword" element={<Forgotpassword />} />
 

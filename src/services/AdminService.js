@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/admin"; // Update with your backend URL
+const API_URL = "https://qrcode-application.onrender.com/admin"; // Update with your backend URL
 
 export const getAllUsers = async () => {
   try {

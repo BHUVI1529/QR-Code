@@ -11,6 +11,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tool
 function Dashboard() {
   const [totalStudents, setTotalStudents] = useState(0);
   const [presentToday, setPresentToday] = useState(0);
+  // const [onLeave, setOnLeave] = useState(0);
+  // const [absentCount, setAbsentCount] = useState(0);
   const [attendanceData, setAttendanceData] = useState({
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
     datasets: [
@@ -97,6 +99,7 @@ function Dashboard() {
     fetchTotalStudents();
     fetchAttendanceData();
   }, []);
+
   useEffect(() => {
     const fetchPresentToday = async () => {
       try {
@@ -129,6 +132,36 @@ function Dashboard() {
     ],
   };
 
+  // useEffect(() => {
+  //   const fetchOnLeaveCount = async () => {
+  //     try {
+  //       const response = await fetch(https://qrcode-application.onrender.com/api/attendance/count/on-leave');
+  //       const data = await response.json();
+  //       setOnLeave(data.onLeave);
+  //     } catch (error) {
+  //       console.error('Error fetching on leave count:', error);
+  //       setOnLeave(0);
+  //     }
+  //   };
+
+  //   fetchOnLeaveCount();
+  // }, []);
+
+  // useEffect(() => {
+  //   const fetchAbsentCount = async () => {
+  //     try {
+  //       const response = await fetch('https://qrcode-application.onrender.com/api/attendance/count/absent');
+  //       const data = await response.json();
+  //       setAbsentCount(data.absent);
+  //     } catch (error) {
+  //       console.error('Error fetching absent count:', error);
+  //       setAbsentCount(0);
+  //     }
+  //   };
+
+  //   fetchAbsentCount();
+  // }, []);
+
   const handleBarClick = (event, elements) => {
     if (!elements.length) return;
     const index = elements[0].index;
@@ -147,7 +180,7 @@ function Dashboard() {
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard title="Total Students" value={totalStudents} icon={FaUsers} color="border-blue-500" />
-          <StatCard title="Present Today" value={totalStudents} icon={FaUserClock} color="border-green-500" />
+          <StatCard title="Present Today" value={presentToday} icon={FaUserClock} color="border-green-500" />
           <StatCard title="On Leave" value="8" icon={FaCalendarCheck} color="border-yellow-500" />
           <StatCard title="Absent" value="10" icon={FaExclamationTriangle} color="border-red-500" />
         </div>

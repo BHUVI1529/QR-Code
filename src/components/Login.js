@@ -12,29 +12,53 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('https://qrcode-application.onrender.com/api/login', { email, password });
+           if(response.status === 200){
+
             const loginResponse = response.data;
 
-            // Save token, user ID, and role to local storage
-            localStorage.setItem('token', loginResponse.token);
-            localStorage.setItem('id', loginResponse.id);
-            localStorage.setItem('role', loginResponse.role);  // Save the role
 
-            console.log("User ID:", loginResponse.id);
+            console.log("Login Response:", loginResponse);
+
+              // Check if 'id' is available
+        if (loginResponse.Id) {
+            localStorage.setItem('id', loginResponse.Id);
+        } else {
+            console.error("User ID is missing in the response");
+        }
+
+            // Save token, user ID, and role to local storage
+            
+           // localStorage.setItem('id', loginResponse.id);
+            // Save the role
+
+            
+
+            //save other values
+            localStorage.setItem('token', loginResponse.token);
+            localStorage.setItem('role', loginResponse.role); 
+
+            console.log("User ID:", loginResponse.Id);
             console.log("Token:", loginResponse.token);
             console.log("Role:", loginResponse.role);
-
             // Navigate based on the user's role
             if (loginResponse.role === 'ADMIN') {
                 navigate('/admin/Dashboard');
             }
             else{
-                navigate('/qr-scanner');
+                navigate('/user-dashboard');
             }
-            
-        } catch (err) {
-            console.error("Login error:", err);
+           }else{
             setError('Invalid login credentials');
-        }
+            console.error("Failed to login with status:", response.status);
+           }
+          }
+          catch(error){
+            // Handle other errors (like network issues)
+            setError('An error occurred while logging in. Please try again.');
+            console.error("Error during login:", error);
+          }
+    
+        
     };
 
     return (
